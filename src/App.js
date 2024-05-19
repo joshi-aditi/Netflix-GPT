@@ -1,9 +1,8 @@
-function App() {
-  return (
-    <div className="text-blue-600">
-      Hello World
-    </div>
-  );
-}
+import Body from './components/Body'
 
+const App = ()=>{
+  return(
+    <Body/>
+  )
+}
 export default App;
