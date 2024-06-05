@@ -4,15 +4,15 @@ import { validateData } from "../utils/validate";
 import { auth } from "../utils/firebase";
 import {createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { user_Avatar } from "../utils/constants";
+import { bg_img } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
@@ -21,10 +21,7 @@ const Login = () => {
     setIsSignInForm(!isSignInForm);
   };
   const handleBtnClick= ()=>{
-    // console.log(email.current.value);
-    // console.log(password.current.value);
     const message = validateData(email.current.value,password.current.value);
-    // console.log(message);
     setErrorMessage(message);
     if(message) return;//IF SOME MSG STRING WE GOT THEN WILLL JUST DIRECTLY RETURN.... ELSE WILL GO FOR SIGNUP OR SIGN IN USER...
 
@@ -35,20 +32,18 @@ const Login = () => {
         // Signed up 
         const user = userCredential.user;
         updateProfile(auth.currentUser, {
-          displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/110401628?v=4"
+          displayName: name.current.value, photoURL: user_Avatar
         }).then(() => {
           // Profile updated!
           // ...
           const {uid, email, displayName,photoURL} = auth.currentUser;//THIS WON'T BE USER IT WILL BE AUTH.CURRENTUSER BCZ THAT USER DOESNOT HAVE THE NAME AND THE PHOTOURL.
           dispatch(addUser({uid:uid, email:email,displayName:displayName, photoURL:photoURL}));
-          navigate("/browse")
 
         }).catch((error) => {
           // An error occurred
           // ...
           setErrorMessage(error);
         });
-        // console.log(user);
         // ...
       })
       .catch((error) => {
@@ -56,7 +51,6 @@ const Login = () => {
         const errorMessage = error.message;
         setErrorMessage(errorCode+" "+errorMessage);
         // ..
-        navigate("/")
       });
     }
     else{
@@ -65,9 +59,7 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // console.log(user);
         // ...
-        navigate("/browse");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -82,7 +74,7 @@ const Login = () => {
       <Header/>
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/41c789f0-7df5-4219-94c6-c66fe500590a/3149e5eb-4660-4e3d-9e65-b1e615229c64/IN-en-20240513-popsignuptwoweeks-perspective_alpha_website_medium.jpg"
+          src={bg_img}
           alt="bg-img"
         />
       </div>
@@ -103,7 +95,7 @@ const Login = () => {
         <input
           ref={email}
           type="text"
-          placeholder="Email or Phone Number"
+          placeholder="Email Address"
           className="w-full p-3 my-5 rounded-sm bg-gray-700"
         ></input>
 
