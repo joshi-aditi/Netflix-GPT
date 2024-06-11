@@ -13,3 +13,9 @@ export const API_OPTIONS = {
   };
 
 export const POSTER_URL = "https://image.tmdb.org/t/p/w500/";
+
+export const SUPPORTED_LANGUAGES = [
+  {identifier:"EN",name:"English"},
+  {identifier:"HN",name:"Hindi"},
+  {identifier:"GUJ",name:"Gujarati"}
+];

@@ -9,7 +9,7 @@ const MainContainer = () => {
    const movies = useSelector((store)=>store.movies?.nowPlayingMovies);
 
    if(!movies) return;//BEFORE THE STORE EXECUTED THE NOW PLAYING MOVIE WILL BE NULL...
-   const mainMovie = movies[0];
+   const mainMovie = movies[10];
 
   return (
     <div className='overflow-hidden'>
